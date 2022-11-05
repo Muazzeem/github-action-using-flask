@@ -7,6 +7,15 @@ WORKDIR /python-docker
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-COPY . .
+# Copy Flask application code
+COPY app.py  app.py
+COPY start.sh /start.sh
+COPY nginx_config.conf /etc/nginx/conf.d/virtual.conf
 
-CMD ["gunicorn"  , "-b", "0.0.0.0:8000", "app:app"]
+EXPOSE 80
+
+
+RUN chmod +x /start.sh
+ENTRYPOINT ["/start.sh"]
+
+
