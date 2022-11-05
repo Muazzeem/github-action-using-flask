@@ -8,14 +8,11 @@ COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 # Copy Flask application code
-COPY app.py  app.py
-COPY start.sh /start.sh
-COPY nginx_config.conf /etc/nginx/conf.d/virtual.conf
+COPY . .
 
-EXPOSE 80
+CMD ["gunicorn"  , "--bind", "0.0.0.0:8000", "app:hello_geek"]
 
 
-RUN chmod +x /start.sh
-ENTRYPOINT ["/start.sh"]
+
 
 
