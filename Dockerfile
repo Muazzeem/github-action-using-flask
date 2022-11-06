@@ -10,7 +10,7 @@ RUN pip3 install -r requirements.txt
 # Copy Flask application code
 COPY . .
 
-CMD ["gunicorn"  , "--bind", "0.0.0.0:8000", "app:hello_geek"]
+CMD ["gunicorn"  , "--config", "gunicorn_config.py", "app:app"]
 
 
 
