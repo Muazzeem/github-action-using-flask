@@ -17,7 +17,7 @@ jobs:
       
     - uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: image-name
+        image: flask_docker
         registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
         addLatest: Ture
       env:
