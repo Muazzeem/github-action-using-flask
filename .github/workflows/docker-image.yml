@@ -20,7 +20,7 @@ jobs:
         image: flask_docker
         registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
         tags: ${{  github.sha }}
-        platforms: linux/arm64/v8
+        platform: linux/arm64/v8
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
