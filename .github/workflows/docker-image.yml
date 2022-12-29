@@ -19,7 +19,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: docker/setup-qemu-action@v1
-
     - uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: flask_docker
@@ -40,16 +39,16 @@ jobs:
       #     source: env.${{ env.ENV }}
       #     target: /home/ec2-user
 
-      - name: Run docker commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.SSH_HOST }}
-          username: ${{ env.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          # envs: GHCR_USER,GHCR_PASS
-          script: |
-            docker container stop $(docker container ls -aq)
-            docker run -d -p 5000:8000 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com/flask_docker:${{  github.sha }}
-            docker container prune -f
-            docker image prune -a -f
+    - name: Run docker commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ env.SSH_HOST }}
+        username: ${{ env.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        # envs: GHCR_USER,GHCR_PASS
+        script: |
+          docker container stop $(docker container ls -aq)
+          docker run -d -p 5000:8000 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com/flask_docker:${{  github.sha }}
+          docker container prune -f
+          docker image prune -a -f
