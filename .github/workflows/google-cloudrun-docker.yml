@@ -43,9 +43,8 @@ jobs:
 
       - name: Authenticate to Google Cloud
         id: 'auth'
-        uses: 'google-github-actions/auth@v0.4.0'
+        uses: 'google-github-actions/auth@v1'
         with:
-          token_format: 'access_token'
           workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
           service_account: 'github-actions@saifuls-playground.iam.gserviceaccount.com'
 
@@ -67,7 +66,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0
+        uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
