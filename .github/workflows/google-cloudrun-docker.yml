@@ -33,7 +33,7 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           token_format: 'access_token'
-          access_token_lifetime: 60
+          access_token_lifetime: 6
           workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/example-pool/providers/example-gh-provider'
           service_account: 'gha-service-account@saifuls-playground.iam.gserviceaccount.com'
 
