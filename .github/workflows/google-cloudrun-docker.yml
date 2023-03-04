@@ -33,8 +33,8 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           token_format: 'access_token'
-          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          service_account: 'github-actions@saifuls-playground.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/github-action-pool'
+          service_account: 'github-action-runner@saifuls-playground.iam.gserviceaccount.com'
 #
 #      - name: 'Access secret'
 #        run: |-
