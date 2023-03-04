@@ -49,18 +49,18 @@ jobs:
           service_account: 'github-actions@saifuls-playground.iam.gserviceaccount.com'
 
       # Authenticate Docker to Google Cloud Artifact Registry
-      - name: Docker Auth
-        id: docker-auth
-        uses: 'docker/login-action@v1'
-        with:
-          username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.access_token }}'
-          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
-
-      - name: Build and Push Container
-        run: |-
-          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}" ./
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+#      - name: Docker Auth
+#        id: docker-auth
+#        uses: 'docker/login-action@v1'
+#        with:
+#          username: 'oauth2accesstoken'
+#          password: '${{ steps.auth.outputs.access_token }}'
+#          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+#
+#      - name: Build and Push Container
+#        run: |-
+#          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+#          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
 
       # END - Docker auth and build
 
@@ -71,7 +71,7 @@ jobs:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If using a pre-built image, update the image name here
-          image: us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}
+          image: us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:a1277344087c2c637e0a1bbcd9fc6bd15442a850
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
