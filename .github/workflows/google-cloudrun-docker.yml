@@ -34,8 +34,8 @@ jobs:
         with:
           token_format: 'access_token'
           access_token_lifetime: 300
-          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/example-pool-test/providers/example-gh-provider-test'
-          service_account: 'test-storage-sa@saifuls-playground.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/sample-github-action-pool/providers/sample-gha-wlif-work'
+          service_account: 'github-action-sa@saifuls-playground.iam.gserviceaccount.com'
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Auth
