@@ -17,6 +17,9 @@ env:
   REGION: "us-central1"
 
 jobs:
+  pylint:
+    uses: ./.github/workflows/pylint.yml
+
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
