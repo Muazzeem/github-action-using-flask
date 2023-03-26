@@ -20,13 +20,20 @@ jobs:
   pylint:
     uses: ./.github/workflows/pylint.yml
 
+  push_aws_ecr:
+    needs: [ pylint ]
+    uses: ./.github/workflows/docker-image.yml
+    with:
+      registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
+    secrets: inherit
+
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
 
-    needs: [pylint]
+    needs: [pylint, push_aws_ecr]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -57,12 +64,6 @@ jobs:
 
       # END - Docker auth and build
 
-  push_aws_ecr:
-    needs: [pylint]
-    uses: ./.github/workflows/docker-image.yml
-    with:
-      registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
-    secrets: inherit
 
 #      - name: Deploy to Cloud Run
 #        id: deploy
