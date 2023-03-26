@@ -3,6 +3,7 @@ on:
     outputs:
       environment_names:
         description: environment names determined from GH event
+        value: 213
 
 
 jobs:
