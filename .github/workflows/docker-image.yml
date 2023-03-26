@@ -21,15 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: docker/setup-qemu-action@v1
-#    - uses: mr-smithers-excellent/docker-build-push@v5
-#      with:
-#        image: flask_docker
-#        registry: ${{ inputs.registry }}
-#        tags: ${{  github.sha }}
-#        platform: linux/arm64/v8
-#      env:
-#        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Docker meta
       id: meta
@@ -42,7 +33,16 @@ jobs:
           type=ref,event=pr
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
-        run: echo "${{ steps.meta.outputs.tags }}"
+
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: flask_docker
+        registry: ${{ inputs.registry }}
+        tags: ${{ steps.meta.outputs.tags }}
+        platform: linux/arm64/v8
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 #    - name: Run docker commands
 #      uses: appleboy/ssh-action@master
