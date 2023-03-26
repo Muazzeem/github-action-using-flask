@@ -1,5 +1,9 @@
 on:
   workflow_call:
+    inputs:
+      registry:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -15,7 +19,7 @@ jobs:
     - uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: flask_docker
-        registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
+        registry: ${{ inputs.registry }}
         tags: ${{  github.sha }}
         platform: linux/arm64/v8
       env:
