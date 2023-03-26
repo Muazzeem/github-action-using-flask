@@ -1,15 +1,8 @@
-name: Docker Image CI
-
 on:
-  push:
-    branches: [ "mamun_wip" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_call:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     env:
@@ -29,17 +22,17 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Run docker commands
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ env.SSH_HOST }}
-        username: ${{ env.SSH_USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        port: 22
-        # envs: GHCR_USER,GHCR_PASS
-        script: |
-          aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
-          docker container stop $(docker container ls -aq)
-          docker run -d -p 5000:8000 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com/flask_docker:${{  github.sha }}
-          docker container prune -f
-          docker image prune -a -f
+#    - name: Run docker commands
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ env.SSH_HOST }}
+#        username: ${{ env.SSH_USERNAME }}
+#        key: ${{ secrets.SSH_KEY }}
+#        port: 22
+#        # envs: GHCR_USER,GHCR_PASS
+#        script: |
+#          aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
+#          docker container stop $(docker container ls -aq)
+#          docker run -d -p 5000:8000 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com/flask_docker:${{  github.sha }}
+#          docker container prune -f
+#          docker image prune -a -f
