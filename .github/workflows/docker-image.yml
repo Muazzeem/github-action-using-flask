@@ -42,8 +42,9 @@ jobs:
           type=ref,event=pr
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
-  show_data:
-    run: echo "${{ steps.meta.outputs.labels }} ${{ steps.meta.outputs.tags }}"
+  job1:
+    steps:
+      run: echo "${{ steps.meta.outputs.labels }} ${{ steps.meta.outputs.tags }}"
 
 #    - name: Run docker commands
 #      uses: appleboy/ssh-action@master
