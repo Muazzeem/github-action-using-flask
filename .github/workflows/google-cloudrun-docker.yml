@@ -26,6 +26,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    needs: [pylint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
