@@ -58,6 +58,7 @@ jobs:
       # END - Docker auth and build
 
   push_aws_ecr:
+    needs: [pylint]
     uses: ./.github/workflows/docker-image.yml
     with:
       registry: 940443069190.dkr.ecr.ap-southeast-1.amazonaws.com
