@@ -42,14 +42,6 @@ jobs:
           type=ref,event=pr
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
-  job1:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
-    steps:
-        run: echo "${{ steps.meta.outputs.labels }}"
 
 #    - name: Run docker commands
 #      uses: appleboy/ssh-action@master
