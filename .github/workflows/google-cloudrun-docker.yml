@@ -64,8 +64,3 @@ jobs:
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
-
-      - name: 'Run shell commands'
-        run: |
-          gcloud run services update python-work --region='us-west1' --command='echo "Hello, world!"'    
-
