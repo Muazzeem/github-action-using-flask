@@ -67,5 +67,5 @@ jobs:
 
       - name: 'Run shell commands'
         run: |
-          gcloud run services update lsx-server --region='us-west1' --command='echo "Hello, world!"'    
+          gcloud run services update python-work --region='us-west1' --command='echo "Hello, world!"'    
 
