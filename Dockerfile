@@ -9,4 +9,4 @@ RUN pip3 install -r requirements.txt
 
 # Copy Flask application code
 COPY . .
-#ENTRYPOINT ["/start"]
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
