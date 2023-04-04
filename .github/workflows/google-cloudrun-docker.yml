@@ -24,7 +24,7 @@ jobs:
           node-version: '14.x'
       - run: npm install
       - name: Hello world action step
-        uses: Muazzeem/hello-world-javascript-action@v1.1.1 # Uses an action in the root directory
+        uses: Muazzeem/hello-world-javascript-action@v2.1.1 # Uses an action in the root directory
         id: hello
         with:
           who-to-greet: 'Dev'
