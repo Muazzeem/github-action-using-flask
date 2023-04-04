@@ -10,49 +10,54 @@ on:
   push:
     branches: [ "master" ]
 
-env:
-  PROJECT_ID: "saifuls-playground"
-  GAR_LOCATION: "us-central1"
-  SERVICE: "python-work"
-  REGION: "us-central1"
-
 jobs:
-  get-branch-name:
+  hello_world_job:
     runs-on: ubuntu-latest
-    outputs:
-      branch-name: ${{ steps.branch-output.outputs.branch-name }}
+    name: A job to say hello
     steps:
-      - name: Set output
-        id: branch-output
-        run: |
-          export TRUNC_BRANCH=`echo "${{ github.ref }}" | sed 's#/##g' | sed 's/-//g' | sed 's/_//g' | cut -c1-21`
-          echo "::set-output name=branch-name::$TRUNC_BRANCH"
-
-  DEV:
-    needs: [ get-branch-name ]
-    # Add 'id-token' with the intended permissions for workload identity federation
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
-    runs-on: ubuntu-latest
-    environment: DEV
-    steps:
+      # To use this repository's private action,
+      # you must check out the repository
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
         with:
-          python-version: 3.9
+          node-version: '14.x'
+      - run: npm install
+      - name: Hello world action step
+        uses: Muazzeem/hello-world-javascript-action@v2.1.1 # Uses an action in the root directory
+        id: hello
+        with:
+          who-to-greet: 'Dev'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.stage }}"
 
-      - name: Render Configuration File
-        run: |
-          pip install jinja2-cli
-          jinja2 --strict -D branch_name=${{ needs.get-branch-name.outputs.branch-name }} terraform.tfvars.j2 > terraform.tfvars
-          cat terraform.tfvars
-        working-directory: template
-
+#env:
+#  PROJECT_ID: "saifuls-playground"
+#  GAR_LOCATION: "us-central1"
+#  SERVICE: "python-work"
+#  REGION: "us-central1"
+#
+#jobs:
+#  deploy:
+#    # Add 'id-token' with the intended permissions for workload identity federation
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Hello world action step
+#        uses: ./ # Uses an action in the root directory
+#        id: hello
+#        with:
+#          who-to-greet: 'Mona the Octocat'
+#      # Use the output from the `hello` step
+#      - name: Get the output time
+#        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
 #      - id: 'auth'
 #        name: 'Authenticate to Google Cloud'
@@ -61,7 +66,7 @@ jobs:
 #          token_format: 'access_token'
 #          access_token_lifetime: 300
 #          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/github-action-pool-f8f1b059/providers/github-action-provider-f8f1b059'
-#          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+#          service_account: 'github-action-sa@saifuls-playground.iam.gserviceaccount.com'
 #
 #      # Authenticate Docker to Google Cloud Artifact Registry
 #      - name: Docker Auth
