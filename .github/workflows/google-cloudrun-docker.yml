@@ -19,6 +19,10 @@ jobs:
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - run: npm install
       - name: Hello world action step
         uses: ./ # Uses an action in the root directory
         id: hello
