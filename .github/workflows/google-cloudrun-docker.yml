@@ -28,10 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
-        uses: ./
+      - name: Hello world action step
+        uses: ./ # Uses an action in the root directory
+        id: hello
         with:
-          test-command: 'npm test'
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
 #      - id: 'auth'
 #        name: 'Authenticate to Google Cloud'
