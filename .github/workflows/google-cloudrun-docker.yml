@@ -24,7 +24,7 @@ jobs:
           node-version: '14.x'
       - run: npm install
       - name: Hello world action step
-        uses: ./action2.yaml # Uses an action in the root directory
+        uses: ./action2.yml # Uses an action in the root directory
         id: hello
         with:
           to-greet: 'Dev'
