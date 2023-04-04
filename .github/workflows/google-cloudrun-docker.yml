@@ -24,13 +24,13 @@ jobs:
           node-version: '14.x'
       - run: npm install
       - name: Hello world action step
-        uses: Muazzeem/hello-world-javascript-action@v2.1.1 # Uses an action in the root directory
+        uses: Muazzeem/hello-world-javascript-action@v1 # Uses an action in the root directory
         id: hello
         with:
           who-to-greet: 'Dev'
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.stage }}"
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
 
 #env:
 #  PROJECT_ID: "saifuls-playground"
