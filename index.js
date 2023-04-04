@@ -2,7 +2,7 @@ const core = require('@actions/core');
 // const github = require('@actions/github');
 
 try {
-    const stage = core.getInput('stage');
+    const stage = core.getInput('to-greet');
     console.log(`Hello ${stage}!`);
     core.setOutput("stage", stage);
 } catch (error) {

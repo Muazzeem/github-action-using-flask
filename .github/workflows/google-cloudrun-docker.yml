@@ -24,10 +24,10 @@ jobs:
           node-version: '14.x'
       - run: npm install
       - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
+        uses: ./action2.yaml # Uses an action in the root directory
         id: hello
         with:
-          stage: 'Dev'
+          to-greet: 'Dev'
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.stage }}"
