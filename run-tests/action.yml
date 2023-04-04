@@ -1,0 +1,9 @@
+name: Run unit tests
+description: A custom GitHub action to run unit tests for your project
+inputs:
+  test-command:
+    description: 'The command to run the unit tests'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
