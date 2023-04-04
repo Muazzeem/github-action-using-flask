@@ -9,4 +9,4 @@ RUN pip3 install -r requirements.txt
 
 # Copy Flask application code
 COPY . .
-ENTRYPOINT ["/start"]
+#ENTRYPOINT ["/start"]
