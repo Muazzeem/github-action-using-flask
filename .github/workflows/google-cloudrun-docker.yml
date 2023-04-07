@@ -16,13 +16,14 @@ env:
   REGION: "us-central1"
 
 jobs:
-  deploy:
+  DEV:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
 
     runs-on: ubuntu-latest
+    environment: DEV
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,7 +43,7 @@ jobs:
         with:
           token_format: 'access_token'
           access_token_lifetime: 300
-          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/github-action-pool-f8f1b059/providers/github-action-provider-f8f1b059'
+          workload_identity_provider: 'projects/184562214739/locations/global/workloadIdentityPools/github-action-pool/providers/github-action'
           service_account: 'github-action-sa@saifuls-playground.iam.gserviceaccount.com'
 
       # Authenticate Docker to Google Cloud Artifact Registry
