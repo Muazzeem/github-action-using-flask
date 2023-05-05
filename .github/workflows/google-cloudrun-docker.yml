@@ -34,17 +34,13 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install dependencies
+      - name: Render Configuration File
         run: |
-          pip install jinja2
-          pip install -r requirements.txt
-
-      - name: Render configuration file
-        run: |
-          cat <<EOF > terraform.tfvars
-          {% include "terraform.tfvars.j2" with {'branch_name': 'AAAAAAAA'} %}
-          EOF
+          pip install jinja2-cli
+          jinja2 --strict -D branch_name=$GITHUB_REF terraform.tfvars.j2 > terraform.tfvars
           cat terraform.tfvars
+        working-directory: template
+
 
 #      - id: 'auth'
 #        name: 'Authenticate to Google Cloud'
