@@ -9,6 +9,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches: [ "master" ]
+
 env:
   PROJECT_ID: "saifuls-playground"
   GAR_LOCATION: "us-central1"
@@ -28,48 +29,56 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
-        id: hello
+      - name: Install Python
+        uses: actions/setup-python@v2
         with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          python-version: 3.9
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          token_format: 'access_token'
-          access_token_lifetime: 300
-          workload_identity_provider: 'projects/184562214739/locations/global/workloadIdentityPools/github-action-pool/providers/github-action'
-          service_account: 'github-action-sa@saifuls-playground.iam.gserviceaccount.com'
+      - name: Install dependencies
+        run: |
+          pip install jinja2
+          pip install -r requirements.txt
 
-      # Authenticate Docker to Google Cloud Artifact Registry
-      - name: Docker Auth
-        id: docker-auth
-        uses: 'docker/login-action@v1'
-        with:
-          username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.access_token }}'
-          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+      - name: Render configuration file
+        run: |
+          cat <<EOF > terraform.tfvars
+          {% include "terraform.tfvars.j2" with {'branch_name': 'AAAAAAAA'} %}
+          EOF
+          cat terraform.tfvars
 
-      - name: Build and Push Container
-        run: |-
-          docker build -t "us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}" ./
-          docker push "us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}"
-      # END - Docker auth and build
-
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
-          # NOTE: If using a pre-built image, update the image name here
-          image: us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}
-
-      # If required, use the Cloud Run url output in later steps
-      - name: Show Output
-        run: echo ${{ steps.deploy.outputs.url }}
+#      - id: 'auth'
+#        name: 'Authenticate to Google Cloud'
+#        uses: 'google-github-actions/auth@v1'
+#        with:
+#          token_format: 'access_token'
+#          access_token_lifetime: 300
+#          workload_identity_provider: 'projects/294059432651/locations/global/workloadIdentityPools/github-action-pool-f8f1b059/providers/github-action-provider-f8f1b059'
+#          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+#
+#      # Authenticate Docker to Google Cloud Artifact Registry
+#      - name: Docker Auth
+#        id: docker-auth
+#        uses: 'docker/login-action@v1'
+#        with:
+#          username: 'oauth2accesstoken'
+#          password: '${{ steps.auth.outputs.access_token }}'
+#          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+#
+#      - name: Build and Push Container
+#        run: |-
+#          docker build -t "us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}" ./
+#          docker push "us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}"
+#      # END - Docker auth and build
+#
+#      - name: Deploy to Cloud Run
+#        id: deploy
+#        uses: google-github-actions/deploy-cloudrun@v1
+#        with:
+#          service: ${{ env.SERVICE }}
+#          region: ${{ env.REGION }}
+#          # NOTE: If using a pre-built image, update the image name here
+#          image: us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:${{ github.sha }}
+#
+#      # If required, use the Cloud Run url output in later steps
+#      - name: Show Output
+#        run: echo ${{ steps.deploy.outputs.url }}
