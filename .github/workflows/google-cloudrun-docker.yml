@@ -26,8 +26,7 @@ jobs:
         id: branch-output
         run: |
           export TRUNC_BRANCH=`echo "${{ github.head_ref }}" | sed 's#/##g' | sed 's/-//g' | sed 's/_//g' | cut -c1-21`
-          echo $TRUNC_BRANCH
-          echo "branch-name=$TRUNC_BRANCH" >> $GITHUB_OUTPUT
+          echo "::set-output name=branch-name::$TRUNC_BRANCH"
 
   DEV:
     needs: [ get-branch-name ]
