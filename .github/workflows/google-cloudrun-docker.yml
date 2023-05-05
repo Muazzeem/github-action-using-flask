@@ -39,6 +39,7 @@ jobs:
           pip install jinja2-cli
           jinja2 --strict -D branch_name=$GITHUB_REF terraform.tfvars.j2 > terraform.tfvars
           cat terraform.tfvars
+        working-directory: template
 
 
 #      - id: 'auth'
