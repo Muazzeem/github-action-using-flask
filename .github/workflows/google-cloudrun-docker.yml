@@ -6,15 +6,14 @@
 
 name: Build and Deploy to Cloud Run
 
-on:
-  push:
-    branches: [ "master" ]
 
-env:
-  PROJECT_ID: "saifuls-playground"
-  GAR_LOCATION: "us-central1"
-  SERVICE: "python-work"
-  REGION: "us-central1"
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, reopened, closed]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   get-branch-name:
@@ -25,12 +24,13 @@ jobs:
       - name: Set output
         id: branch-output
         run: |
-          export TRUNC_BRANCH=`echo "${{ github.ref }}" | sed 's#/##g' | sed 's/-//g' | sed 's/_//g' | cut -c1-21`
-          echo "::set-output name=branch-name::$TRUNC_BRANCH"
+          export TRUNC_BRANCH=`echo "${{ github.head_ref }}" | sed 's#/##g' | sed 's/-//g' | sed 's/_//g' | cut -c1-21`
+          echo $TRUNC_BRANCH
+          echo "branch-name=$TRUNC_BRANCH" >> $GITHUB_OUTPUT
 
   DEV:
     needs: [ get-branch-name ]
-    # Add 'id-token' with the intended permissions for workload identity federation
+#     Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
