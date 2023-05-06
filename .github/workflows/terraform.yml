@@ -4,7 +4,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "mamun" ]
+    branches: [ "aaaaa" ]
   pull_request:
 
 permissions:
