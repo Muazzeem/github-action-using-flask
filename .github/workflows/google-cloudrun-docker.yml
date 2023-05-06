@@ -49,7 +49,7 @@ jobs:
       - name: Render Configuration File
         run: |
           pip install jinja2-cli
-          jinja2 --strict -D branch_name=${{ needs.get-branch-name.outputs.branch-name }} terraform.tfvars.j2 > terraform.tfvars
+          jinja2 --strict -D branch_name=${{ github.head_ref }} terraform.tfvars.j2 > terraform.tfvars
           cat terraform.tfvars
         working-directory: template
 
