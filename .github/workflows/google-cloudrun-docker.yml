@@ -36,6 +36,9 @@ jobs:
       id-token: 'write'
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: template
     environment: DEV
     steps:
       - name: Checkout
@@ -49,10 +52,8 @@ jobs:
       - name: Render Configuration File
         run: |
           pip install jinja2-cli
-          jinja2 --strict -D branch_name=${{ needs.get-branch-name.outputs.branch-name }} terraform.tfvars.j2 > terraform.tfvars
+          jinja2 --strict -D branch_name=AAAAAAAAAA terraform.tfvars.j2 > terraform.tfvars
           cat terraform.tfvars
-        working-directory: template
-
 
 #      - id: 'auth'
 #        name: 'Authenticate to Google Cloud'
