@@ -2,22 +2,22 @@ steps:
   # Docker Build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t',
-           'us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:sql',
+           'us-central1-docker.pkg.dev/faisals-ml-playground/flask-app/python-work:flask',
            '.']
 
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push',
-           'us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:sql']
+           'us-central1-docker.pkg.dev/faisals-ml-playground/flask-app/python-work:flask']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
       - 'deploy'
-      - 'python-mysql'
+      - 'flask-app'
       - '--image'
-      - 'us-central1-docker.pkg.dev/saifuls-playground/python-app/python-work:sql'
+      - 'us-central1-docker.pkg.dev/faisals-ml-playground/flask-app/python-work:flask'
       - '--no-allow-unauthenticated'
       - '--log-http'
       - '--region'
